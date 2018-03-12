@@ -1,0 +1,59 @@
+/home/hadoop-2.7.5/bin/hdfs dfs -mkdir /tweets
+
+/home/hadoop-2.7.5/bin/hdfs dfs -put /home/ec2-user/exam1_tweets.csv /tweets
+
+/home/hadoop-2.7.5/bin/hdfs dfs -mkdir /users
+
+/home/hadoop-2.7.5/bin/hdfs dfs -put /home/ec2-user/exam1_users.csv /users
+
+
+
+javac -classpath '/home/hadoop-2.7.5/etc/hadoop:/home/hadoop-2.7.5/share/hadoop/common/lib/*:/home/hadoop-2.7.5/share/hadoop/common/*:/home/hadoop-2.7.5/share/hadoop/hdfs:/home/hadoop-2.7.5/share/hadoop/hdfs/lib/*:/home/hadoop-2.7.5/share/hadoop/hdfs/*:/home/hadoop-2.7.5/share/hadoop/yarn/lib/*:/home/hadoop-2.7.5/share/hadoop/yarn/*:/home/hadoop-2.7.5/share/hadoop/mapreduce/lib/*:/home/hadoop-2.7.5/share/hadoop/mapreduce/*:/home/hadoop-2.7.5/contrib/capacity-scheduler/*.jar' TopFiveLocationTweeted.java
+
+jar cf tflt.jar TopFiveLocationTweeted*.class
+
+//Run Example
+/home/hadoop-2.7.5/bin/hadoop jar tflt.jar TopFiveLocationTweeted /tweets /users /output/bonus
+
+/home/hadoop-2.7.5/bin/hdfs dfs -cat /output/bonusJoin/part-r-00000
+/home/hadoop-2.7.5/bin/hdfs dfs -cat /output/bonusLocation/part-r-00000
+/home/hadoop-2.7.5/bin/hdfs dfs -cat /output/bonusTop/part-r-00000
+
+ 
+
+
+// clean up
+
+
+/home/hadoop-2.7.5/bin/hdfs dfs -rm -r /output/*
+/home/hadoop-2.7.5/bin/hdfs dfs -rm -r /outputForProblem2/*
+/home/hadoop-2.7.5/bin/hdfs dfs -rm -r /tweets/*
+/home/hadoop-2.7.5/bin/hdfs dfs -rm -r /users/*
+
+/home/hadoop-2.7.5/bin/hdfs dfs -rm -r tweets
+/home/hadoop-2.7.5/bin/hdfs dfs -rm -r users
+/home/hadoop-2.7.5/bin/hdfs dfs -ls /users
+
+
+/home/hadoop-2.7.5/bin/hdfs dfs -ls /data_users
+/home/hadoop-2.7.5/bin/hdfs dfs -ls /data_comments
+/home/hadoop-2.7.5/bin/hdfs dfs -ls /output
+
+/home/hadoop-2.7.5/bin/hdfs dfs -get /output/* /home/ec2-user 
+
+
+
+
+/home/hadoop-2.7.5/sbin/stop-all.sh
+/home/hadoop-2.7.5/sbin/stop-dfs.sh
+/home/hadoop-2.7.5/sbin/stop-yarn.sh
+
+rm -Rf /tmp/hadoop-ec2-user/
+/home/hadoop-2.7.5/bin/hdfs namenode -format
+/home/hadoop-2.7.5/sbin/start-dfs.sh
+/home/hadoop-2.7.5/sbin/start-yarn.sh
+
+
+
+
+
